@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'management/css/trees.css' %}">
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Admin</h2>
+            <a href="{% url 'admin-accounts' %}">Contas <i class="fa-solid fa-users"></i></a>
+            <a href="{% url 'admin-users' %}">Usuários <i class="fa-solid fa-circle-user"></i></a>
+            <a class="active-page" href="{% url 'admin-trees' %}">Plantas <i class="fa-solid fa-tree"></i></a>
+            <button onclick="confirmLogout()">Logout <i class="fa-solid fa-right-to-bracket"></i></button>
+        </aside>
+
+        <main class="content">
+            <section id="trees" class="section">
+                <h1>Árvores</h1>
+                
+                <div id="trees-list">
+                    {% for tree in trees %}
+                        <div>{{ tree.name }}({{ tree.scientific_name}})</div>
+                    {% empty %}
+                        <p>Nenhuma árvore encontrada</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Tem certeza que deseja sair?")) {
+                window.location.href = "/logout/";
+            }
+        }
+    </script>
+</body>
+</html>

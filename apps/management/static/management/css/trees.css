@@ -24,31 +24,32 @@ body {
     margin-bottom: 20px;
 }
 
-.sidebar button {
+.sidebar a, .sidebar button {
     background: none;
     border: none;
     color: white;
     font-size: 16px;
-    text-align: left;
     cursor: pointer;
     padding: 8px;
     border-radius: 4px;
+
+    text-decoration: none;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.sidebar button:hover {
+.sidebar button:hover, .sidebar a:hover {
     background-color: #34495e;
+}
+
+.sidebar button i {
+    margin-left: auto;
 }
 
 .content {
     flex-grow: 1;
     padding: 40px;
     background: white;
-}
-
-.section {
-    display: none;
-}
-
-.section.active {
-    display: block;
 }

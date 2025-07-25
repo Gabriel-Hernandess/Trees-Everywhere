@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'management/css/accounts.css' %}">
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Admin</h2>
+            <a class="active-page" href="{% url 'admin-accounts' %}">Contas <i class="fa-solid fa-users"></i></a>
+            <a href="{% url 'admin-users' %}">Usuários <i class="fa-solid fa-circle-user"></i></a>
+            <a href="{% url 'admin-trees' %}">Plantas <i class="fa-solid fa-tree"></i></a>
+            <button onclick="confirmLogout()">Logout <i class="fa-solid fa-right-to-bracket"></i></button>
+        </aside>
+
+        <main class="content">
+            <section id="accounts" class="section">
+                <div class="accounts-header">
+                    <h1>Contas</h1>
+                    <button onClick="openForm()">Nova conta</button>
+                </div>
+                
+                <div id="accounts-list">
+                    {% for account in accounts %}
+                        <div>{{ account.name }}</div>
+                    {% empty %}
+                        <p>Nenhuma conta encontrada.</p>
+                    {% endfor %}
+                </div>
+                
+                <div class="overlay">
+                    <div class="new-account-form">
+                        <h3>Criar nova conta</h3>
+                        <input placeholder="Nome" id="new-account-name"/>
+
+                        <button onClick="submitNewAccount()">Adicionar conta</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.slice(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function openForm(){
+            const form = document.querySelector('.overlay');
+            form.style.display = 'flex';
+        }
+
+        function submitNewAccount(){
+            const name = document.getElementById('new-account-name').value;
+
+            if(!name){
+                return;
+            }
+
+            fetch('/management/accounts/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: new URLSearchParams({
+                    'username': name
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Conta criada com sucesso!');
+                    window.location.reload();
+                } else {
+                    alert('Erro: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Erro na requisição:', error);
+            });
+        }
+    </script>
+
+    <script>
+        function confirmLogout() {
+            if (confirm("Tem certeza que deseja sair?")) {
+                window.location.href = "/logout/";
+            }
+        }
+    </script>
+</body>
+</html>
