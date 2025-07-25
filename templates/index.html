@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Bem-vindo ao Trees Everywhere</h1>
+            <p>Gerencie suas árvores plantadas de forma eficiente.</p>
+            <a href="{% url 'login' %}" class="btn">Acessar</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://cdn-icons-png.flaticon.com/512/2431/2431891.png" alt="Imagem ilustrativa">
+        </div>
+    </section>
+</body>
+</html>

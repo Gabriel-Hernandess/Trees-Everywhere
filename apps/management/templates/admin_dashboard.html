@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'management/admin_dashboard.css' %}">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Admin</h2>
+            <button onclick="showSection('contas')">Contas</button>
+            <button onclick="showSection('usuarios')">Usuários</button>
+            <button onclick="showSection('plantas')">Plantas</button>
+            <button onclick="confirmLogout()">Logout</button>
+        </aside>
+
+        <main class="content">
+            <section id="contas" class="section active">
+                <h1>Contas</h1>
+                <p>Conteúdo das contas aqui.</p>
+            </section>
+
+            <section id="usuarios" class="section">
+                <h1>Usuários</h1>
+                <p>Conteúdo dos usuários aqui.</p>
+            </section>
+
+            <section id="plantas" class="section">
+                <h1>Plantas</h1>
+                <p>Conteúdo das plantas aqui.</p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(id).classList.add('active');
+        }
+    </script>
+</body>
+</html>
