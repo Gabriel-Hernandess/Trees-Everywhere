@@ -6,6 +6,9 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{% static 'management/css/accounts.css' %}">
 
+    <!-- Scripts -->
+    <script src="{% static 'management/js/accounts.js' %}" defer></script>
+
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -28,7 +31,16 @@
                 
                 <div id="accounts-list">
                     {% for account in accounts %}
-                        <div>{{ account.name }}</div>
+                        <div>
+                            {{ account.name }}
+                            {% if account.active %}
+                                <p>Ativo <i class="fa-solid fa-circle" style="color: green; margin-left: 10px;"></i></p>
+                                <button onclick="toggleAccountStatus('deactivate', {{ account.id }})">Desativar</button>
+                            {% else %}
+                                <p>Inativo <i class="fa-solid fa-circle" style="color: red; margin-left: 10px;"></i></p>
+                                <button onclick="toggleAccountStatus('activate', {{ account.id }})">Ativar</button>
+                            {% endif %}
+                        </div>
                     {% empty %}
                         <p>Nenhuma conta encontrada.</p>
                     {% endfor %}
@@ -39,7 +51,8 @@
                         <h3>Criar nova conta</h3>
                         <input placeholder="Nome" id="new-account-name"/>
 
-                        <button onClick="submitNewAccount()">Adicionar conta</button>
+                        <button onClick="submitNewAccount()">Criar conta</button>
+                        <button onCLick="closeForm()">Cancelar</button>
                     </div>
                 </div>
             </section>
@@ -47,59 +60,16 @@
     </div>
 
     <script>
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.startsWith(name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.slice(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
         function openForm(){
             const form = document.querySelector('.overlay');
             form.style.display = 'flex';
         }
 
-        function submitNewAccount(){
-            const name = document.getElementById('new-account-name').value;
-
-            if(!name){
-                return;
-            }
-
-            fetch('/management/accounts/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: new URLSearchParams({
-                    'username': name
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Conta criada com sucesso!');
-                    window.location.reload();
-                } else {
-                    alert('Erro: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Erro na requisição:', error);
-            });
+        function closeForm(){
+            const form = document.querySelector('.overlay');
+            form.style.display = 'none';
         }
-    </script>
 
-    <script>
         function confirmLogout() {
             if (confirm("Tem certeza que deseja sair?")) {
                 window.location.href = "/logout/";

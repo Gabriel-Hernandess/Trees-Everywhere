@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{% static 'trees/css/my_profile.css' %}">
+
+    <!-- Scripts -->
+    <script src="{% static 'trees/js/my_profile.js' %}"></script>
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Usuário</h2>
+            <a href="{% url 'my-profile' %}">Perfil <i class="fa-solid fa-circle-user"></i></a>
+            <a href="{% url 'planted-trees' %}">Minhas árvores <i class="fa-solid fa-users"></i></a>
+            <a href="{% url 'group-trees' %}">Árvores de grupos <i class="fa-solid fa-users"></i></a>
+            <button onclick="confirmLogout()">Logout</button>
+        </aside>
+
+        <main class="content">
+            <section id="planted-trees" class="section active">
+                <div class="user-trees-header">
+                    <h1>Perfil</h1>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function openForm(){
+            const form = document.querySelector('.overlay');
+            form.style.display = 'flex';
+        }
+
+        function closeForm(){
+            const form = document.querySelector('.overlay');
+            form.style.display = 'none';
+        }
+
+        function confirmLogout() {
+            if (confirm("Tem certeza que deseja sair?")) {
+                window.location.href = "/logout/";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -24,15 +24,13 @@ class LoginView(View):
             login(request, user)
 
             if user.is_superuser:
-                return render(request, 'admin_dashboard.html')
+                return render(request, 'accounts.html')
             else:
-                return render(request, 'user_dashboard.html')
+                return render(request, 'planted_trees.html')
         return render(request, 'login.html', {'msg': 'Usuário ou senha inválidos'})
     
 @method_decorator(login_required_custom, 'dispatch')
 class LogoutView(View):
-    def post(self, request):
-        user = request.user
-
-        logout(request, user)
-        redirect('login')
+    def get(self, request):
+        logout(request)
+        return redirect('login')

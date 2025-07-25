@@ -6,6 +6,9 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{% static 'management/css/users.css' %}">
 
+    <!-- Scripts -->
+    <script src="{% static 'management/js/users.js' %}" defer></script>
+
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -21,20 +24,66 @@
 
         <main class="content">
             <section id="users" class="section">
-                <h1>Usuários</h1>
+                <div class="users-header">
+                    <h1>Usuários</h1>
+                    <button onClick="openForm()">Novo usuário</button>
+                </div>
                 
                 <div id="users-list">
-                    {% for user in users %}
-                        <div>{{ user.username }}{{ user.profile.about }}</div>
+                    {% for item in users %}
+                        <div>
+                            {{ item.user.username }}
+
+                            {% for account in item.accounts %}
+                                <p>{{ account.name }}</p>
+                            {% empty %}
+                                <p>Nenhuma conta associada á esse usuário</p>
+                            {% endfor %}
+                        </div>
                     {% empty %}
                         <p>Nenhum usuário encontrado.</p>
                     {% endfor %}
                 </div>
             </section>
+
+            <div class="overlay">
+                <div class="new-user-form">
+                    <h3>Novo usuário</h3>
+                    
+                    <input id="new-name" placeholder="Nome" />
+                    <input id="new-email" placeholder="Email" />
+                    <input id="new-password" placeholder="Senha" />
+
+                    <button onCLick="submitNewUser()">Criar usuário</button>
+                    <button onCLick="closeForm()">Cancelar</button>
+                </div>
+
+                <div class="new-user-accounts">
+                    <p>Associar á contas</p>
+
+                    <div class="accounts-list">
+                        {% for account in accounts %}
+                            <button id="account-btn-{{ account.id }}" class="account-btn" onClick="associateAccount('{{ account.id }}')">{{ account.name }}</button>
+                        {% empty %}
+                            <p>Nenhuma conta encontrada. Crie novas contas e associe o usuário á qualquer momento.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
     <script>
+        function openForm(){
+            const form = document.querySelector('.overlay');
+            form.style.display = 'flex';
+        }
+
+        function closeForm(){
+            const form = document.querySelector('.overlay');
+            form.style.display = 'none';
+        }
+
         function confirmLogout() {
             if (confirm("Tem certeza que deseja sair?")) {
                 window.location.href = "/logout/";

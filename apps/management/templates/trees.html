@@ -6,6 +6,9 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{% static 'management/css/trees.css' %}">
 
+    <!-- Scripts -->
+    <script src="{% static 'management/js/trees.js' %}" defer></script>
+
     <!-- Font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -21,20 +24,54 @@
 
         <main class="content">
             <section id="trees" class="section">
-                <h1>Árvores</h1>
+                <div class="trees-header">
+                    <h1>Árvores</h1>
+                    <button onClick="openForm()">Nova árvore</button>
+                </div>
                 
                 <div id="trees-list">
                     {% for tree in trees %}
-                        <div>{{ tree.name }}({{ tree.scientific_name}})</div>
+                        <div>
+                            {{ tree.name }} ({{ tree.scientific_name}})
+                            {% if tree.planted_trees %}
+                                {% for planted_tree in tree.planted_trees %}
+                                    <p>{{ planted_tree.user.username }}</p>
+                                {% endfor %}
+                            {% else %}
+                                <p>Sem plantios</p>
+                            {% endif %}
+                        </div>
                     {% empty %}
                         <p>Nenhuma árvore encontrada</p>
                     {% endfor %}
+                </div>
+
+                <div class="overlay">
+                    <div class="new-tree-form">
+                        <h3>Nova árvore</h3>
+                        
+                        <input id="new-name" placeholder="Nome" />
+                        <input id="new-scientific-name" placeholder="Nome cientifíco" />
+
+                        <button onCLick="submitNewTree()">Criar árvore</button>
+                        <button onCLick="closeForm()">Cancelar</button>
+                    </div>
                 </div>
             </section>
         </main>
     </div>
 
     <script>
+        function openForm(){
+            const form = document.querySelector('.overlay');
+            form.style.display = 'flex';
+        }
+
+        function closeForm(){
+            const form = document.querySelector('.overlay');
+            form.style.display = 'none';
+        }
+
         function confirmLogout() {
             if (confirm("Tem certeza que deseja sair?")) {
                 window.location.href = "/logout/";
