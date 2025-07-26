@@ -31,10 +31,11 @@
                 
                 <div id="accounts-list">
                     {% for account in accounts %}
-                        <div>
-                            {{ account.name }}
+                        <div class="account-item">
+                            <p>{{ account.name }}</p>
+
                             {% if account.active %}
-                                <p>Ativo <i class="fa-solid fa-circle" style="color: green; margin-left: 10px;"></i></p>
+                                <p class="status">Ativo <i class="fa-solid fa-circle" style="color: green; margin-left: 10px;"></i></p>
                                 <button onclick="toggleAccountStatus('deactivate', {{ account.id }})">Desativar</button>
                             {% else %}
                                 <p>Inativo <i class="fa-solid fa-circle" style="color: red; margin-left: 10px;"></i></p>

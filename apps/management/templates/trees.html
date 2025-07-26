@@ -6,6 +6,11 @@
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{% static 'management/css/trees.css' %}">
 
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
     <!-- Scripts -->
     <script src="{% static 'management/js/trees.js' %}" defer></script>
 
@@ -31,12 +36,28 @@
                 
                 <div id="trees-list">
                     {% for tree in trees %}
-                        <div>
-                            {{ tree.name }} ({{ tree.scientific_name}})
+                        <div class="item">
+                            <p>{{ tree.name }} ({{ tree.scientific_name }})</p>
+
                             {% if tree.planted_trees %}
-                                {% for planted_tree in tree.planted_trees %}
-                                    <p>{{ planted_tree.user.username }}</p>
-                                {% endfor %}
+                                <button onclick="openPlanted('{{ tree.id }}')">Ver plantios</button>
+
+                                <div class="planted-tree-list" style="display: none;" id="planted-{{ tree.id }}">
+                                    <div class="planted-tree-container">
+                                        <div class="list">
+                                            {% for planted_tree in tree.planted_trees %}
+                                                <div class="planted-tree-item" onclick="showOnMap({{ planted_tree.location_lat }}, {{ planted_tree.location_long }}, 'map-{{ planted_tree.id }}')">
+                                                    <p>Usuário: {{ planted_tree.user.username }}</p>
+                                                    <p>Data: {{ planted_tree.planted_at }}</p>
+                                                    <p>Conta: {{ planted_tree.account.name|default:"Sem conta associada" }}</p>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+            
+                                        <div id="map" class="map"></div>
+                                        <i class="fa-solid fa-xmark" onclick="closePlanted('planted-{{ tree.id }}')" style="color: black; cursor: pointer;"></i>
+                                    </div>
+                                </div>
                             {% else %}
                                 <p>Sem plantios</p>
                             {% endif %}
@@ -45,6 +66,7 @@
                         <p>Nenhuma árvore encontrada</p>
                     {% endfor %}
                 </div>
+
 
                 <div class="overlay">
                     <div class="new-tree-form">
@@ -71,6 +93,10 @@
             const form = document.querySelector('.overlay');
             form.style.display = 'none';
         }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initMap(-23.5505, -46.6333);
+        });
 
         function confirmLogout() {
             if (confirm("Tem certeza que deseja sair?")) {

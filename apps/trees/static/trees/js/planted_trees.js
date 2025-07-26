@@ -29,9 +29,13 @@ function initMap() {
 }
 
 function addPlantedTree() {
-    const select = document.getElementById('tree-select');
-    const treeId = select.value;
-    const treeName = select.options[select.selectedIndex].text;
+    const treeSelect = document.getElementById('tree-select');
+    const treeId = treeSelect.value;
+    const treeName = treeSelect.options[treeSelect.selectedIndex].text;
+
+    const accountSelect = document.getElementById('account-select');
+    const accountName = accountSelect.options[accountSelect.selectedIndex].text;
+    const accountId = accountSelect.value;
 
     const newPlantedList = document.querySelector('.new-planted-list div');
 
@@ -40,17 +44,16 @@ function addPlantedTree() {
         return;
     }
 
-
-
     plantedTrees.push({
         tree_id: treeId,
         lat: marker.getLatLng().lat,
         lng: marker.getLatLng().lng,
-        name: treeName
+        name: treeName,
+        account: accountId
     });
 
     const newElement = document.createElement('p');
-    newElement.textContent = `${treeName} (${marker.getLatLng().lat}, ${marker.getLatLng().lng})`;
+    newElement.textContent = `${treeName}, ${accountName} | (${marker.getLatLng().lat}, ${marker.getLatLng().lng})`;
     newPlantedList.appendChild(newElement);
 
     map.removeLayer(marker);

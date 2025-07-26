@@ -31,14 +31,16 @@
                 
                 <div id="users-list">
                     {% for item in users %}
-                        <div>
-                            {{ item.user.username }}
+                        <div class="list-item">
+                            <p>{{ item.user.username }}</p>
 
-                            {% for account in item.accounts %}
-                                <p>{{ account.name }}</p>
-                            {% empty %}
-                                <p>Nenhuma conta associada á esse usuário</p>
-                            {% endfor %}
+                            <div class="list-accounts">
+                                {% for account in item.accounts %}
+                                    <p>{{ account.name }}</p>
+                                {% empty %}
+                                    <p>Nenhuma conta associada á esse usuário</p>
+                                {% endfor %}
+                            </div>
                         </div>
                     {% empty %}
                         <p>Nenhum usuário encontrado.</p>

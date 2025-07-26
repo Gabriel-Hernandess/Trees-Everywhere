@@ -28,15 +28,15 @@
         <main class="content">
             <section id="planted-trees" class="section active">
                 <div class="user-trees-header">
-                    <h1>Árvores</h1>
+                    <h1>Minhas árvores</h1>
                     <button onClick="openForm()">Nova árvore plantada</button>
                 </div>
                 
                 <div id="user-trees-list">
                     {% for item in planted_trees %}
                         <div onclick="showPlantedTree({{ item }})">
-                            {{ item.tree.name }}
-                            ({{ item.tree.scientific_name }})
+                            <p style="margin: 0px;">{{ item.tree.name }} ({{ item.tree.scientific_name }})</p>
+                            <p style="margin: 0px;">{{ item.planted_at }}</p>
                         </div>
                     {% empty %}
                         <p>Nenhuma árvore plantada</p>
@@ -58,6 +58,13 @@
                         <select id="tree-select">
                             {% for tree in trees %}
                                 <option value="{{ tree.id }}">{{ tree.name }} ({{ tree.scientific_name }})</option>
+                            {% endfor %}
+                        </select>
+
+                        <label>Selecione a conta associada á essa árvore plantada:</label>
+                        <select id="account-select">
+                            {% for account in accounts %}
+                                <option value="{{ account.id }}">{{ account.name }}</option>
                             {% endfor %}
                         </select>
 

@@ -51,15 +51,15 @@ body {
 .users-header {
     display: flex;
     flex-direction: row;
-    width: 80%;
+    width: 90%;
     justify-content: space-between;
     align-items: center;
 }
 
 #users-list {
-    width: 80%;
+    width: 90%;
 }
-#users-list div {
+.list-item {
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -43,3 +43,45 @@ async function submitNewTree(){
         alert('Erro ao adicionar planta.');
     }
 }
+
+function openPlanted(id){
+    const div = document.getElementById(`planted-${id}`);
+    div.style.display = 'flex';
+}
+
+let mapInstance = null;
+let markerInstance = null;
+
+function initMap(lat, lng) {
+    const mapEl = document.getElementById('map');
+    if (!mapEl) return;
+
+    // Cria o mapa uma única vez
+    mapInstance = L.map(mapEl).setView([lat, lng], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data © OpenStreetMap contributors',
+    }).addTo(mapInstance);
+}
+
+function showOnMap(lat, lng) {
+    if (!mapInstance) {
+        initMap(lat, lng);
+        return;
+    }
+
+    // Move o mapa para nova posição
+    mapInstance.setView([lat, lng], 15);
+
+    // Move o marcador
+    if (markerInstance) {
+        markerInstance.setLatLng([lat, lng]);
+    } else {
+        markerInstance = L.marker([lat, lng]).addTo(mapInstance);
+    }
+}
+
+
+function closePlanted(){
+    document.querySelector('.planted-tree-list').style.display = 'none';
+}

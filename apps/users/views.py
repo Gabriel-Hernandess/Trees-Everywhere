@@ -24,9 +24,9 @@ class LoginView(View):
             login(request, user)
 
             if user.is_superuser:
-                return render(request, 'accounts.html')
+                return redirect('admin-accounts')
             else:
-                return render(request, 'planted_trees.html')
+                return redirect('planted-trees')
         return render(request, 'login.html', {'msg': 'Usuário ou senha inválidos'})
     
 @method_decorator(login_required_custom, 'dispatch')
