@@ -20,25 +20,32 @@
         </aside>
 
         <main class="content">
-            <section id="planted-trees" class="section active">
-                <div class="user-trees-header">
+            <section id="groups-trees" class="section">
+                <div class="groups-trees-header">
                     <h1>Árvores Por Grupos</h1>
+                </div>
+
+                <div class="groups-trees-list">
+                    {% for account, trees in trees_by_account.items %}
+                        <h2>{{ account.name }}</h2>
+                        
+                        {% if trees %}
+                            <div>
+                            {% for planted_tree in trees %}
+                                <p>{{ planted_tree.tree.name }} ({{ planted_tree.tree.scientific_name }}) | {{ planted_tree.planted_at }}</p>
+                            {% endfor %}
+                            </div>
+                        {% else %}
+                            <p>Nenhuma árvore plantada nessa conta.</p>
+                        {% endif %}
+
+                    {% endfor %}
                 </div>
             </section>
         </main>
     </div>
 
     <script>
-        function openForm(){
-            const form = document.querySelector('.overlay');
-            form.style.display = 'flex';
-        }
-
-        function closeForm(){
-            const form = document.querySelector('.overlay');
-            form.style.display = 'none';
-        }
-
         function confirmLogout() {
             if (confirm("Tem certeza que deseja sair?")) {
                 window.location.href = "/logout/";

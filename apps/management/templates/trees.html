@@ -40,13 +40,15 @@
                             <p>{{ tree.name }} ({{ tree.scientific_name }})</p>
 
                             {% if tree.planted_trees %}
-                                <button onclick="openPlanted('{{ tree.id }}')">Ver plantios</button>
+                                <button onclick="openPlanted({{ tree.id }})">Ver plantios</button>
 
                                 <div class="planted-tree-list" style="display: none;" id="planted-{{ tree.id }}">
                                     <div class="planted-tree-container">
                                         <div class="list">
+                                            <h4 style="color: #000;">{{ tree.name }} ({{ tree.scientific_name }})</p>
+                                                
                                             {% for planted_tree in tree.planted_trees %}
-                                                <div class="planted-tree-item" onclick="showOnMap({{ planted_tree.location_lat }}, {{ planted_tree.location_long }}, 'map-{{ planted_tree.id }}')">
+                                                <div class="planted-tree-item" onclick="showOnMap({{ planted_tree.location_lat }}, {{ planted_tree.location_long }}, 'map-{{ tree.id }}')">
                                                     <p>Usuário: {{ planted_tree.user.username }}</p>
                                                     <p>Data: {{ planted_tree.planted_at }}</p>
                                                     <p>Conta: {{ planted_tree.account.name|default:"Sem conta associada" }}</p>
@@ -54,7 +56,7 @@
                                             {% endfor %}
                                         </div>
             
-                                        <div id="map" class="map"></div>
+                                        <div id="map-{{ tree.id }}" class="map"></div>
                                         <i class="fa-solid fa-xmark" onclick="closePlanted('planted-{{ tree.id }}')" style="color: black; cursor: pointer;"></i>
                                     </div>
                                 </div>

@@ -20,9 +20,23 @@
         </aside>
 
         <main class="content">
-            <section id="planted-trees" class="section active">
-                <div class="user-trees-header">
+            <section id="profile" class="section">
+                <div class="profile-header">
                     <h1>Perfil</h1>
+                    
+                    <div class="profile-data">
+                        <p>Nome: {{ user.username }}</p>
+                        <p>Email: {{ user.email }}</p>
+                    </div>
+                    
+                    <div class="profile-about">
+                        <p>Sobre:</p>
+                        <textarea id="about">{{ user.profile.about }}</textarea>
+                        <button onclick="saveAbout()">Salvar descrição</button>
+                    </div>
+                    
+                    <p style="margin-top: 20px;">Entrou em {{ user.profile.joined }}</p>
+                    <p id="msg"></p>
                 </div>
             </section>
         </main>

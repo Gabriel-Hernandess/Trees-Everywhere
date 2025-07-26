@@ -113,10 +113,12 @@ body {
 .planted-tree-item {
     padding: 10px;
     background-color: #2c3e50;
+    color: #fff;
     cursor: pointer;
     border-radius: 5px;
     width: 100%;
     box-sizing: border-box;
+    margin-bottom: 8px;
 }
 .planted-tree-item:hover {
     background-color: #34495e;

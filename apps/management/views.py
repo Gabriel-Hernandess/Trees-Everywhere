@@ -112,6 +112,7 @@ class AdminTreesView(View):
 
             for tree in trees_query:
                 trees.append({
+                    'id': tree.id,
                     'name': tree.name,
                     'scientific_name': tree.scientific_name,
                     'planted_trees': tree.plantings.all(),
@@ -135,8 +136,3 @@ class AdminTreesView(View):
         except Exception as error:
             print('Erro ao adicionar arvore:', error)
             return JsonResponse({'success': False, 'error': str(error)})
-
-@method_decorator(login_required_custom, name='dispatch')
-class RegisterView(View):
-    def get(self, request):
-        return HttpResponse('TELA DE CADASTRO')

@@ -57,9 +57,41 @@ class MyTreesView(View):
 @method_decorator(login_required_custom, name='dispatch')
 class MyProfile(View):
     def get(self, request):
-        return render(request, 'my_profile.html')
+        user_data = User.objects.select_related('profile').get(id=request.user.id)
+
+        context = {'user': user_data}
+        return render(request, 'my_profile.html', context)
+    
+    def post(self, request):
+        try:
+            data = json.loads(request.body)
+            about = data.get('about', '').strip()
+
+            print('Bio recebida:', about)
+
+            if not about:
+                return JsonResponse({'msg': 'Bio inválida.'}, status=400)
+
+            profile = request.user.profile
+            profile.about = about
+            profile.save()
+            return JsonResponse({'msg': 'Bio atualizada com sucesso!'})
+        except Exception as e:
+            return JsonResponse({'msg': 'Erro ao atualizar bio.'}, status=500)
 
 @method_decorator(login_required_custom, name='dispatch')
 class GroupsTrees(View):
     def get(self, request):
-        return render(request, 'groups_trees.html')
+        user = request.user
+        accounts = user.accounts.all()
+
+        trees_by_account = {}
+
+        for account in accounts:
+            trees = PlantedTree.objects.filter(user=user, account=account)
+            trees_by_account[account] = trees
+
+        print(trees_by_account)
+
+        context = {'trees_by_account': trees_by_account}
+        return render(request, 'groups_trees.html', context)

@@ -44,44 +44,45 @@ async function submitNewTree(){
     }
 }
 
-function openPlanted(id){
-    const div = document.getElementById(`planted-${id}`);
-    div.style.display = 'flex';
+function openPlanted(id) {
+    console.log(id);
+    const el = document.getElementById(`planted-${id}`);
+    if (el) {
+        el.style.display = 'flex';
+    }
 }
 
-let mapInstance = null;
-let markerInstance = null;
+function closePlanted(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.style.display = 'none';
+    }
+}
 
-function initMap(lat, lng) {
-    const mapEl = document.getElementById('map');
+let mapInstances = {};
+let markerInstances = {};
+
+function initMap(lat, lng, mapId) {
+    const mapEl = document.getElementById(mapId);
     if (!mapEl) return;
 
-    // Cria o mapa uma única vez
-    mapInstance = L.map(mapEl).setView([lat, lng], 15);
+    mapInstances[mapId] = L.map(mapEl).setView([lat, lng], 15);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: 'Map data © OpenStreetMap contributors',
-    }).addTo(mapInstance);
+    }).addTo(mapInstances[mapId]);
 }
 
-function showOnMap(lat, lng) {
-    if (!mapInstance) {
-        initMap(lat, lng);
-        return;
-    }
-
-    // Move o mapa para nova posição
-    mapInstance.setView([lat, lng], 15);
-
-    // Move o marcador
-    if (markerInstance) {
-        markerInstance.setLatLng([lat, lng]);
+function showOnMap(lat, lng, mapId) {
+    if (!mapInstances[mapId]) {
+        initMap(lat, lng, mapId);
     } else {
-        markerInstance = L.marker([lat, lng]).addTo(mapInstance);
+        mapInstances[mapId].setView([lat, lng], 15);
     }
-}
 
-
-function closePlanted(){
-    document.querySelector('.planted-tree-list').style.display = 'none';
+    if (markerInstances[mapId]) {
+        markerInstances[mapId].setLatLng([lat, lng]);
+    } else {
+        markerInstances[mapId] = L.marker([lat, lng]).addTo(mapInstances[mapId]);
+    }
 }
