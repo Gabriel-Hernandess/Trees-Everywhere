@@ -45,7 +45,7 @@
                                 <div class="planted-tree-list" style="display: none;" id="planted-{{ tree.id }}">
                                     <div class="planted-tree-container">
                                         <div class="list">
-                                            <h4 style="color: #000;">{{ tree.name }} ({{ tree.scientific_name }})</p>
+                                            <h4 style="color: #000;">{{ tree.name }} ({{ tree.scientific_name }})</h4>
                                                 
                                             {% for planted_tree in tree.planted_trees %}
                                                 <div class="planted-tree-item" onclick="showOnMap({{ planted_tree.location_lat }}, {{ planted_tree.location_long }}, 'map-{{ tree.id }}')">

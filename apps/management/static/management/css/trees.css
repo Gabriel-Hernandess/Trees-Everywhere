@@ -109,6 +109,23 @@ body {
     width: 30%;
     overflow-y: auto;
 }
+/* Chrome, Edge e Safari */
+.planted-tree-container .list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.planted-tree-container .list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.planted-tree-container .list::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.planted-tree-container .list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 
 .planted-tree-item {
     padding: 10px;
@@ -116,7 +133,7 @@ body {
     color: #fff;
     cursor: pointer;
     border-radius: 5px;
-    width: 100%;
+    width: 95%;
     box-sizing: border-box;
     margin-bottom: 8px;
 }
@@ -153,6 +170,18 @@ body {
     flex-direction: column;
     background-color: #fff;
     padding: 10px;
+    width: 33%;
 
     gap: 12px;
+}
+.new-tree-form input {
+    padding: 8px;
+    outline: none;
+}
+.new-tree-form button {
+    border: none;
+    cursor: pointer;
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 10px;
 }

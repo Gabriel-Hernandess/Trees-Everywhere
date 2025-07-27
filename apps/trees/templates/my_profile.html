@@ -8,15 +8,18 @@
 
     <!-- Scripts -->
     <script src="{% static 'trees/js/my_profile.js' %}"></script>
+
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="container">
         <aside class="sidebar">
-            <h2>Usuário</h2>
+            <h2>Bem vindo, {{ request.user.username }}</h2>
             <a href="{% url 'my-profile' %}">Perfil <i class="fa-solid fa-circle-user"></i></a>
-            <a href="{% url 'planted-trees' %}">Minhas árvores <i class="fa-solid fa-users"></i></a>
+            <a href="{% url 'planted-trees' %}">Minhas árvores <i class="fa-solid fa-tree"></i></i></a>
             <a href="{% url 'group-trees' %}">Árvores de grupos <i class="fa-solid fa-users"></i></a>
-            <button onclick="confirmLogout()">Logout</button>
+            <button onclick="confirmLogout()">Logout <i class="fa-solid fa-arrow-right-from-bracket"></i></button>
         </aside>
 
         <main class="content">
